@@ -14,6 +14,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSession(o =>
+{
+    o.Cookie.HttpOnly = true;
+    o.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,12 +36,18 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+// app.UseCookiePolicy();
 
 app.UseRouting();
+// app.UseRateLimiter();
+// app.UseRequestLocalization();
+// app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+// app.UseSession();
+// app.UseResponseCompression();
+// app.UseResponseCaching();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
